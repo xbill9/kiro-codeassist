@@ -1,58 +1,64 @@
-# Cymbal Superstore & MCP Monorepo
+# Kiro MCP Tools Monorepo
 
-This monorepo is an evolution of the **Cymbal Superstore** sample application, showcasing a modern microservices architecture integrated with the **Model Context Protocol (MCP)** and **Google Cloud Platform (GCP)**. It provides a comprehensive set of examples across multiple programming languages for building intelligent, tool-using agents.
+This is the monorepo for **Kiro MCP tools** — a comprehensive collection of [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server implementations across a wide range of programming languages, plus Google Cloud Platform (GCP) integrations and supporting utilities.
 
-## Core Concepts
+## What's Here
 
-### Cymbal Superstore
-Originally a sample e-commerce application, this project now serves as the foundation for demonstrating:
-*   **Inventory Management**: Managing products via Google Cloud Firestore.
-*   **Cloud-Native Deployment**: Using Docker, Cloud Build, and Cloud Run.
-*   **AI Integration**: Exposing business logic as MCP tools for LLMs (like Gemini and Claude).
+Each subdirectory is a self-contained MCP server or utility, organized by function, transport, and language.
 
-### Model Context Protocol (MCP)
-The repo contains dozens of MCP server implementations, allowing AI models to interact with the Cymbal Superstore inventory or perform utility tasks.
+### MCP Servers — `greet` tool (`mcp-*`)
+Simple MCP servers exposing a `greet` tool. Good starting points for new language implementations.
 
-## Project Categories
+| Transport | Languages |
+| :--- | :--- |
+| `stdio` | C, C++, COBOL, C#, Dart/Flutter, Fortran, Go, Haskell, Java, Kotlin, Lisp, Perl, PHP, Python, Ruby, Rust, Swift, TypeScript, Zig |
+| `https` (SSE) | C, C++, COBOL, C#, Dart/Flutter, Fortran, Go, Haskell, Java, Kotlin, Lisp, Perl, PHP, Python, Ruby, Rust, Swift, TypeScript, Zig |
 
-### 1. MCP Servers (Inventory & Utilities)
-These servers expose tools to MCP clients via Stdio or HTTPS (SSE).
+### MCP Servers — Firestore Inventory (`firestore-*`)
+MCP servers that manage a product inventory in Google Cloud Firestore, exposing CRUD tools to MCP clients.
 
-*   **Firestore Inventory Servers (`firestore-*`)**: 
-    *   Manage the Cymbal Superstore inventory.
-    *   **Languages:** C#, Flutter, Go, Java, Kotlin, PHP, Python, Ruby, Rust, TypeScript.
-    *   **Transports:** `stdio` (local), `https` (Cloud Run).
-*   **Basic MCP Servers (`mcp-*`)**: 
-    *   Simple "Hello World" examples exposing a `greet` tool.
-    *   **Languages:** All major languages including Swift and Dart/Flutter.
+| Transport | Languages |
+| :--- | :--- |
+| `stdio` | C, C++, COBOL, C#, Dart/Flutter, Fortran, Go, Haskell, Java, Kotlin, Lisp, Perl, PHP, Python, Ruby, Rust, Swift, TypeScript, Zig |
+| `https` (SSE) | C, C++, COBOL, C#, Dart/Flutter, Fortran, Go, Haskell, Java, Kotlin, Lisp, Perl, PHP, Python, Ruby, Rust, Swift, TypeScript, Zig |
 
-### 2. Rust & Google Cloud Integrations
-Specialized Rust projects for deep GCP integration:
-*   **`cloudrun-rust`**: Minimal Cloud Run service.
-*   **`pubsub-client-rust`**: Pub/Sub messaging patterns.
-*   **`weather-rust` / `log-rust`**: Utility services and logging patterns.
-*   **`gcp-client-rust`**: Pattern for generic GCP API calls.
+### Rust Utilities & GCP Integrations
+Specialized Rust projects for Cloud Run, Pub/Sub, logging, and GCP API patterns.
 
-### 3. Experimental & Fun
-*   **`battle-royale/`**: Fun Python-based mascot battles and simulations.
+| Directory | Description |
+| :--- | :--- |
+| `cloudrun-rust` | Minimal Cloud Run service |
+| `mcp-cloudrun-rust` / `mcp-https-rust` | MCP server on Cloud Run |
+| `mcp-client-rust` / `mcp-cli-rust` | MCP client implementations |
+| `firestore-client-rust` / `firestore-cli-rust` | Firestore CLI/client tools |
+| `pubsub-client-rust` | Pub/Sub messaging patterns |
+| `logging-client-rust` / `log-rust` | Cloud Logging patterns |
+| `weather-rust` | Weather utility service |
+| `gcp-client-rust` | Generic GCP API client |
+| `gcp-stdio-client-rust` / `gcp-https-client-rust` / `gcp-cloudrun-client-rust` | GCP client transport variants |
 
-## Root Scripts & Tooling
+### Other
+*   **`battle-royale/`**: Python-based simulations and fun experiments.
+*   **`mcp-stdio-python-agy/`**: Python stdio MCP server variant using the `agy` pattern.
 
-The root directory contains critical scripts for lifecycle management:
+## Project Structure
+
+Directories follow a consistent naming convention:
+*   `mcp-[transport]-[lang]`: Basic MCP server with `greet` tool.
+*   `firestore-[transport]-[lang]`: MCP server with Firestore inventory tools.
+*   `gcp-[name]-rust`: GCP-specific Rust utility.
+
+## Root Scripts
 
 | Script | Description |
 | :--- | :--- |
-| `init.sh` | One-time setup: enables APIs, configures Docker, and sets up Firestore. |
-| `set_env.sh` | Exports essential vars like `PROJECT_ID` and `REGION`. (Usage: `source ./set_env.sh`) |
-| `backend.sh` | Main build/deploy script for the inventory backend. |
-| `backend-open.sh` | Deploys inventory to Cloud Run with public access. |
-| `backend-secure.sh` | Deploys inventory to Cloud Run with restricted access. |
-| `startproxy.sh` | Starts a local proxy (`gcloud run services proxy`) for secure testing. |
-| `enablemcp.sh` | Configures environment for MCP interaction. |
-
-## AI Assistant Integration
-
-Most subdirectories include a `GEMINI.md` file. These files provide specialized context for AI assistants (like Gemini) to understand the specific project's architecture, technologies, and development workflow. If you are using this repo with an AI assistant, it is highly recommended to reference these files.
+| `init.sh` | One-time setup: enables APIs, configures Docker, sets up Firestore |
+| `set_env.sh` | Exports `PROJECT_ID`, `REGION`, etc. (`source ./set_env.sh`) |
+| `backend.sh` | Build/deploy script for the inventory backend |
+| `backend-open.sh` | Deploy to Cloud Run with public access |
+| `backend-secure.sh` | Deploy to Cloud Run with restricted access |
+| `startproxy.sh` | Start a local proxy for secure Cloud Run testing |
+| `enablemcp.sh` | Configure environment for MCP interaction |
 
 ## Quick Start
 
@@ -62,22 +68,20 @@ Most subdirectories include a `GEMINI.md` file. These files provide specialized 
 source ./set_env.sh
 ```
 
-### 2. Local Development (Stdio)
-Most directories follow a standard `Makefile` pattern:
+### 2. Run Locally (stdio)
+Most directories use a standard `Makefile`:
 ```bash
-cd firestore-stdio-rust
+cd mcp-stdio-python
 make build
 make run
 ```
 
-### 3. Deploy to Cloud (HTTPS)
-To deploy an MCP server as a containerized service:
+### 3. Deploy to Cloud Run (https)
 ```bash
-cd firestore-https-ts
+cd mcp-https-ts
 make deploy
 ```
 
-## Directory Naming Convention
-*   `firestore-[transport]-[lang]`: Inventory tool using Firestore.
-*   `mcp-[transport]-[lang]`: Basic tool implementation.
-*   `gcp-[name]-rust`: Specific GCP feature demonstration in Rust.
+## AI Assistant Context
+
+Most subdirectories include a `GEMINI.md` file with project-specific context for AI assistants. Each directory also follows standard `Makefile` targets (`build`, `run`, `test`, `deploy`).
