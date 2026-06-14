@@ -1,0 +1,48 @@
+# Local properties
+local.properties
+
+# Gradle
+.gradle/
+build/
+.gradletasknamecache
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Kotlin
+.konan/
+.kotlin-js-store/
+.kotlin/
+
+# Build artifacts and compiled files
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+*.zip
+*.tar.gz
+*.rar
+
+# Log files and crash dumps
+*.log
+hs_err_pid*
+replay_pid*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.env
+.pytest_cache/
+
+# OS / Misc
+.DS_Store
+Thumbs.db
+.apple/
+*~
+*.swp

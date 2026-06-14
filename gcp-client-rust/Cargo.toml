@@ -1,0 +1,22 @@
+[package]
+name = "gcp-client-rust"
+version = "0.4.0"
+edition = "2024"
+description = "Minimal Rust client Call to Google Cloud"
+license = "MIT"
+repository = "https://github.com/xbill9/gemini-cli-codeassist"
+
+[dependencies]
+anyhow = "1.0.98"
+tokio = { version = "1", features = ["full"] }
+google-cloud-secretmanager-v1 = "^1.0.0"
+google-cloud-gax = "^1.0.0"
+tracing = "0.1.43"
+tracing-subscriber = { version = "0.3.22", features = ["json", "env-filter"] }
+
+[profile.release]
+opt-level = 3
+lto = true
+strip = true  # Automatically strip symbols from the binary.
+codegen-units = 1
+panic = "abort"

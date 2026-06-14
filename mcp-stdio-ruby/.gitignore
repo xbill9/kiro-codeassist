@@ -1,0 +1,29 @@
+# Ruby
+*.gem
+*.rbc
+/.bundle/
+/vendor/bundle/
+/spec/reports/
+/spec/examples.txt
+.rspec_status
+/coverage/
+/tmp/
+*.log
+/doc/
+/.yardoc/
+
+# Environment
+.env
+.env*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+.project
+.target
+.settings/

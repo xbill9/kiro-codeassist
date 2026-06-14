@@ -1,0 +1,5 @@
+.gemini/
+target/
+node_modules/
+.DS_Store
+.idx/

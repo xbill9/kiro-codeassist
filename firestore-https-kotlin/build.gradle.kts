@@ -1,0 +1,42 @@
+plugins {
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ktlint)
+    application
+}
+
+group = "com.example"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(libs.mcp.sdk)
+    implementation(libs.google.cloud.firestore)
+    implementation(libs.coroutines.core)
+    implementation(libs.logback.classic)
+    implementation(libs.logstash.logback.encoder)
+    implementation(libs.ktor.server.core)
+    implementation(libs.ktor.server.netty)
+    implementation(libs.ktor.server.sse)
+    implementation(libs.ktor.serialization.json)
+    implementation(libs.ktor.server.content.negotiation)
+    implementation(libs.ktor.server.cors)
+    testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
+}
+
+kotlin {
+    jvmToolchain(25)
+}
+
+application {
+    mainClass.set("com.example.mcp.server.MainKt")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
