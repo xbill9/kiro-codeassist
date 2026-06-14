@@ -1,5 +1,7 @@
-.gemini/
-target/
-node_modules/
-.DS_Store
-.idx/
+__pycache__/
+*.pyc
+.venv/
+.env
+.pytest_cache/
+.aws_creds
+.mypy_cache

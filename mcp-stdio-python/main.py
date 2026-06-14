@@ -47,10 +47,11 @@ def get_system_time() -> str:
 @mcp.tool()
 def get_system_info() -> str:
     """
-    Get information about the host system including OS details, CPU count, and memory.
+    Get information about the host system including OS details,
+    CPU count, and memory.
     """
     logger.debug("Executed get_system_info tool")
-    info = {
+    info: dict[str, str | int | float | None] = {
         "OS": platform.system(),
         "OS Release": platform.release(),
         "OS Version": platform.version(),
@@ -58,12 +59,14 @@ def get_system_info() -> str:
         "Processor": platform.processor(),
         "CPU Count": os.cpu_count(),
     }
-    
+
     # Try to extract total memory info across platforms
     if platform.system() == "Darwin":
         try:
-            mem_bytes = int(subprocess.check_output(["sysctl", "-n", "hw.memsize"]).strip())
-            info["Total Memory (GB)"] = round(mem_bytes / (1024 ** 3), 2)
+            mem_bytes = int(
+                subprocess.check_output(["sysctl", "-n", "hw.memsize"]).strip()
+            )
+            info["Total Memory (GB)"] = round(mem_bytes / (1024**3), 2)
         except Exception as e:
             logger.warning(f"Failed to get memory info on macOS: {e}")
     elif platform.system() == "Linux":
@@ -72,18 +75,22 @@ def get_system_info() -> str:
                 for line in f:
                     if line.startswith("MemTotal:"):
                         mem_kb = int(line.split()[1])
-                        info["Total Memory (GB)"] = round(mem_kb / (1024 ** 2), 2)
+                        gb = round(mem_kb / (1024**2), 2)
+                        info["Total Memory (GB)"] = gb
                         break
         except Exception as e:
             logger.warning(f"Failed to get memory info on Linux: {e}")
     elif platform.system() == "Windows":
         try:
-            out = subprocess.check_output(["wmic", "ComputerSystem", "get", "TotalPhysicalMemory"], text=True)
+            out = subprocess.check_output(
+                ["wmic", "ComputerSystem", "get", "TotalPhysicalMemory"],
+                text=True,
+            )
             mem_bytes = int(out.strip().split("\n")[1].strip())
-            info["Total Memory (GB)"] = round(mem_bytes / (1024 ** 3), 2)
+            info["Total Memory (GB)"] = round(mem_bytes / (1024**3), 2)
         except Exception as e:
             logger.warning(f"Failed to get memory info on Windows: {e}")
-            
+
     return "\n".join(f"{key}: {val}" for key, val in info.items())
 
 
