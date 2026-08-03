@@ -94,6 +94,28 @@ def get_system_info() -> str:
     return "\n".join(f"{key}: {val}" for key, val in info.items())
 
 
+@mcp.tool()
+def get_aws_cli_version() -> str:
+    """
+    Get the installed AWS CLI version.
+    """
+    try:
+        return subprocess.check_output(["aws", "--version"], text=True, stderr=subprocess.STDOUT).strip()
+    except Exception as e:
+        return f"Error: {e}"
+
+
+@mcp.tool()
+def get_kiro_cli_version() -> str:
+    """
+    Get the installed Kiro CLI version.
+    """
+    try:
+        return subprocess.check_output(["kiro-cli", "--version"], text=True, stderr=subprocess.STDOUT).strip()
+    except Exception as e:
+        return f"Error: {e}"
+
+
 if __name__ == "__main__":
     # Explicitly use stdio transport
     mcp.run(transport="stdio")
